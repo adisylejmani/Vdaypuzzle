@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Valentine's Strands 💝 For Liki</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffeef2 100%);
+            min-height: 100vh;
+            color: #5a3d3d;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* INTRO SCREEN */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b8b 0%, #ff4d6d 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .intro-screen.hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        .intro-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .intro-icon {
+            font-size: 70px;
+            color: white;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .intro-greeting {
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .intro-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 80%;
+        }
+
+        /* BUTTON */
+        .btn-continue {
+            background: white;
+            color: #ff6b8b;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+
+        .btn-continue:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* GAME CONTAINER */
+        .game-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 40px;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+        }
+
+        .game-container.visible {
+            opacity: 1;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(255, 107, 139, 0.15);
+            border: 2px solid #ffccd5;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b8b, #ff4d6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            font-size: 14px;
+            color: #8a6f6f;
+            font-weight: 500;
+        }
+
+        /* THEME BOX */
+        .theme-box {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(255, 107, 139, 0.15);
+            border: 2px solid #ffccd5;
+        }
+
+        .theme-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff6b8b;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .theme-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #5a3d3d;
+            line-height: 1.3;
+        }
+
+        /* RULES */
+        .rules {
+            font-size: 14px;
+            color: #8a6f6f;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(255, 107, 139, 0.15);
+            border: 2px solid #ffccd5;
+        }
+
+        .rules-title {
+            font-weight: 700;
+            color: #ff6b8b;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        /* GAME BOX */
+        .game-box {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(255, 107, 139, 0.15);
+            border: 2px solid #ffccd5;
+        }
+
+        .current-word-container {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #ffccd5;
+            border-radius: 15px;
+        }
+
+        .current-word-label {
+            font-size: 12px;
+            color: #8a6f6f;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .current-word {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff6b8b;
+            min-height: 35px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* GRID - 6x8 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 6px;
+            margin-bottom: 25px;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            background: #f8f0f0;
+            border: 2px solid rgba(255, 107, 139, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #5a3d3d;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+        }
+
+        .cell.selecting {
+            background: linear-gradient(135deg, #ff6b8b, #ff4d6d);
+            border-color: transparent;
+            color: white;
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .cell.selecting:after {
+            content: '';
+            position: absolute;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            animation: pulseRing 1.5s infinite;
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 0; }
+        }
+
+        .cell.found {
+            background: linear-gradient(135deg, #ff6b8b, #ff4d6d);
+            border-color: transparent;
+            color: white;
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .cell.trap {
+            background: #f8f0f0;
+            border-color: rgba(140, 140, 140, 0.3);
+            color: #8a6f6f;
+        }
+
+        /* CONTROLS */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .btn-clear {
+            flex: 1;
+            background: #ffccd5;
+            border: none;
+            color: #ff6b8b;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-clear:active {
+            transform: scale(0.98);
+            background: #ffb8c5;
+        }
+
+        .btn-hint {
+            width: 50px;
+            background: #ffb347;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-hint:active {
+            transform: scale(0.95);
+        }
+
+        /* WORDS SECTION */
+        .words-section {
+            margin-top: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffccd5;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #5a3d3d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: #ff6b8b;
+        }
+
+        .word-count {
+            font-size: 16px;
+            color: #8a6f6f;
+            font-weight: 600;
+        }
+
+        .word-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 60px;
+        }
+
+        .word-tag {
+            background: linear-gradient(135deg, #ff6b8b, #ff4d6d);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 139, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .word-tag.main {
+            background: linear-gradient(135deg, #ffb347, #ff9a3c);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            animation: modalPop 0.4s ease;
+            border: 2px solid #ffccd5;
+        }
+
+        @keyframes modalPop {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: #ff6b8b;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+
+        .modal-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #5a3d3d;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .modal-subtext {
+            font-size: 16px;
+            color: #8a6f6f;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .btn-modal {
+            background: #ff6b8b;
+            border: none;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-modal:active {
+            transform: scale(0.95);
+        }
+
+        /* CELEBRATION */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 4000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .celebration.show {
+            display: flex;
+        }
+
+        .celebration-content {
+            text-align: center;
+            padding: 50px 35px;
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            animation: celebrationPop 0.6s ease;
+            border: 2px solid #ffccd5;
+        }
+
+        .celebration-icon {
+            font-size: 80px;
+            color: #ff6b8b;
+            margin-bottom: 25px;
+            animation: heartBeat 1s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .celebration-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ff6b8b;
+            margin-bottom: 20px;
+        }
+
+        .celebration-message {
+            font-size: 17px;
+            color: #8a6f6f;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        @keyframes celebrationPop {
+            from {
+                transform: scale(0.8) rotate(-5deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(8, 1fr);
+                gap: 4px;
+            }
+            
+            .cell {
+                font-size: 18px;
+            }
+            
+            .current-word {
+                font-size: 24px;
+            }
+            
+            .intro-greeting {
+                font-size: 36px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Screen -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-content">
+            <div class="intro-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h1 class="intro-greeting">For My Liki 💝</h1>
+            <p class="intro-subtitle">A Valentine's Day puzzle made with love</p>
+            <button class="btn-continue" id="btnContinue">
+                <i class="fas fa-play"></i>
+                Start Puzzle
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Game -->
+    <div class="game-container" id="gameContainer">
+        <div class="header">
+            <h1>Valentine's Strands</h1>
+            <div class="date">February 14, 2025</div>
+        </div>
+
+        <div class="theme-box">
+            <div class="theme-label">Today's Theme</div>
+            <div class="theme-text">Will you be my Valentine?</div>
+        </div>
+
+        <div class="rules">
+            <div class="rules-title">How to Play:</div>
+            Click or drag between adjacent letters (horizontal, vertical, diagonal) to form words.<br>
+            You can change direction. Each letter used once per word.
+        </div>
+
+        <div class="game-box">
+            <div class="current-word-container">
+                <div class="current-word-label">Current Word</div>
+                <div class="current-word" id="currentWord"></div>
+            </div>
+            
+            <div class="grid" id="grid"></div>
+
+            <div class="controls">
+                <button class="btn-clear" id="btnClear">
+                    <i class="fas fa-undo"></i>
+                    Clear
+                </button>
+                <button class="btn-hint" id="btnHint">
+                    <i class="fas fa-lightbulb"></i>
+                </button>
+            </div>
+
+            <div class="words-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-heart"></i>
+                        Found Words
+                    </div>
+                    <div class="word-count" id="wordCount">0/5</div>
+                </div>
+                <div class="word-tags" id="wordTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for NO -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-heart-broken"></i>
+            </div>
+            <div class="modal-text">Not this time, pookie! 😘</div>
+            <div class="modal-subtext">That's not a positive answer! Look for the loving responses instead 💖</div>
+            <button class="btn-modal" id="btnModalClose">
+                <i class="fas fa-redo"></i>
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Celebration -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-content">
+            <div class="celebration-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="celebration-title">Perfect! 💝</div>
+            <div class="celebration-message">
+                You found all the loving responses! I knew you'd say yes!
+                <br><br>
+                Happy Valentine's Day, Liki! You mean everything to me.
+            </div>
+            <button class="btn-modal" id="btnCelebrationClose">
+                <i class="fas fa-heart"></i>
+                Love You Too!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // FIXED 6x8 GRID with all letters in correct order!
+        const gridData = [
+            ['Y', 'E', 'S', 'N', 'O', 'L', 'O', 'V'],
+            ['O', 'F', 'C', 'O', 'U', 'R', 'S', 'E'],
+            ['A', 'L', 'W', 'A', 'Y', 'S', 'H', 'A'],
+            ['F', 'O', 'R', 'E', 'V', 'E', 'R', 'P'],
+            ['S', 'U', 'R', 'E', 'B', 'E', 'M', 'I'],
+            ['N', 'O', 'N', 'O', 'N', 'O', 'N', 'O']
+        ];
+
+        // 5 WORDS WITH EXACT CORRECT PATHS
+        const answers = [
+            { 
+                word: 'YES', 
+                cells: [[0,0], [0,1], [0,2]],  // Y-E-S (horizontal)
+                isMain: true
+            },
+            { 
+                word: 'OFCOURSE', 
+                cells: [[1,0], [1,1], [1,2], [1,3], [1,4], [1,5], [1,6], [1,7]],  // O-F-C-O-U-R-S-E (horizontal)
+                isMain: false
+            },
+            { 
+                word: 'ALWAYS', 
+                cells: [[2,0], [2,1], [2,2], [2,3], [2,4], [2,5]],  // A-L-W-A-Y-S (horizontal)
+                isMain: false
+            },
+            { 
+                word: 'FOREVER', 
+                cells: [[3,0], [3,1], [3,2], [3,3], [3,4], [3,5], [3,6]],  // F-O-R-E-V-E-R (horizontal)
+                isMain: false
+            },
+            { 
+                word: 'SURE', 
+                cells: [[4,0], [4,1], [4,2], [4,3]],  // S-U-R-E (horizontal)
+                isMain: false
+            }
+        ];
+
+        // TRAP WORD - NO (separate, not mixed with other words)
+        const trapWord = {
+            word: 'NO',
+            cells: [[5,0], [5,1]]  // N-O (bottom left corner)
+        };
+
+        // Game state
+        let selecting = [];
+        let found = [];
+        let trapTriggered = false;
+        let gridCells = [];
+        let isDragging = false;
+        let lastSelectedCell = null;
+
+        // Start game
+        document.getElementById('btnContinue').addEventListener('click', function() {
+            document.getElementById('introScreen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('gameContainer').classList.add('visible');
+            }, 300);
+        });
+
+        // Initialize game
+        function init() {
+            const gridEl = document.getElementById('grid');
+            gridEl.innerHTML = '';
+            
+            // Create 6x8 grid
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 8; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.textContent = gridData[row][col];
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    
+                    // Mark trap cells
+                    if ((row === 5 && col === 0) || (row === 5 && col === 1)) {
+                        cell.classList.add('trap');
+                    }
+                    
+                    // Click handler
+                    cell.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        handleCellClick(row, col);
+                    });
+                    
+                    // Touch start for mobile
+                    cell.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        handleCellClick(row, col);
+                        isDragging = true;
+                    });
+                    
+                    // Mouse down for desktop dragging
+                    cell.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        handleCellClick(row, col);
+                        isDragging = true;
+                    });
+                    
+                    gridEl.appendChild(cell);
+                    gridCells.push({ row, col, element: cell });
+                }
+            }
+
+            // Mouse move for dragging
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                handleDragMove(e.clientX, e.clientY);
+            });
+
+            // Touch move for mobile dragging
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                handleDragMove(touch.clientX, touch.clientY);
+            }, { passive: false });
+
+            // Stop dragging
+            document.addEventListener('mouseup', () => {
+                if (isDragging && selecting.length > 0) {
+                    checkCurrentSelection();
+                }
+                isDragging = false;
+            });
+
+            document.addEventListener('touchend', () => {
+                if (isDragging && selecting.length > 0) {
+                    checkCurrentSelection();
+                }
+                isDragging = false;
+            });
+            
+            // Button handlers
+            document.getElementById('btnClear').addEventListener('click', clearSelection);
+            document.getElementById('btnHint').addEventListener('click', showHint);
+            document.getElementById('btnModalClose').addEventListener('click', closeModal);
+            document.getElementById('btnCelebrationClose').addEventListener('click', () => {
+                document.getElementById('celebration').classList.remove('show');
+            });
+            
+            updateCurrentWord();
+        }
+
+        // Handle cell click
+        function handleCellClick(row, col) {
+            const cell = gridCells.find(c => c.row === row && c.col === col).element;
+            if (cell.classList.contains('found')) return;
+            
+            const index = selecting.findIndex(s => s.row === row && s.col === col);
+            
+            if (index >= 0) {
+                // If clicking on the last selected cell, deselect it (backtrack)
+                if (index === selecting.length - 1) {
+                    deselectCell(row, col);
+                }
+            } else {
+                // Check if we can select this cell
+                if (selecting.length === 0 || isAdjacent(selecting[selecting.length - 1], {row, col})) {
+                    selectCell(row, col);
+                }
+            }
+            
+            updateCurrentWord();
+            lastSelectedCell = { row, col };
+        }
+
+        // Handle drag move
+        function handleDragMove(clientX, clientY) {
+            if (!isDragging || !lastSelectedCell) return;
+            
+            const element = document.elementFromPoint(clientX, clientY);
+            if (element && element.classList.contains('cell')) {
+                const row = parseInt(element.dataset.row);
+                const col = parseInt(element.dataset.col);
+                
+                // Only process if different from last cell
+                if (row !== lastSelectedCell.row || col !== lastSelectedCell.col) {
+                    handleCellClick(row, col);
+                }
+            }
+        }
+
+        // Check if two cells are adjacent (8 directions)
+        function isAdjacent(cell1, cell2) {
+            const rowDiff = Math.abs(cell1.row - cell2.row);
+            const colDiff = Math.abs(cell1.col - cell2.col);
+            return rowDiff <= 1 && colDiff <= 1 && !(rowDiff === 0 && colDiff === 0);
+        }
+
+        // Select a cell
+        function selectCell(row, col) {
+            selecting.push({ row, col });
+            const cell = gridCells.find(c => c.row === row && c.col === col).element;
+            cell.classList.add('selecting');
+        }
+
+        // Deselect a cell
+        function deselectCell(row, col) {
+            const index = selecting.findIndex(s => s.row === row && s.col === col);
+            if (index >= 0) {
+                selecting.splice(index, 1);
+                const cell = gridCells.find(c => c.row === row && c.col === col).element;
+                cell.classList.remove('selecting');
+            }
+        }
+
+        // Clear selection
+        function clearSelection() {
+            selecting.forEach(s => {
+                const cell = gridCells.find(c => c.row === s.row && c.col === s.col).element;
+                cell.classList.remove('selecting');
+            });
+            selecting = [];
+            lastSelectedCell = null;
+            updateCurrentWord();
+        }
+
+        // Update current word
+        function updateCurrentWord() {
+            const word = selecting.map(s => gridData[s.row][s.col]).join('');
+            document.getElementById('currentWord').textContent = word || 'Select letters...';
+        }
+
+        // Check current selection
+        function checkCurrentSelection() {
+            if (selecting.length === 0) return;
+            
+            const selectedCells = selecting.map(s => [s.row, s.col]);
+            
+            console.log('Checking:', selectedCells.map(c => gridData[c[0]][c[1]]).join(''));
+            
+            // Check trap word FIRST
+            if (!trapTriggered && arraysEqual(selectedCells, trapWord.cells)) {
+                console.log('NO TRAP FOUND! Showing modal...');
+                trapTriggered = true;
+                clearSelection();
+                setTimeout(() => {
+                    document.getElementById('modal').classList.add('show');
+                }, 300);
+                return;
+            }
+            
+            // Check answers
+            for (let answer of answers) {
+                if (found.includes(answer.word)) continue;
+                
+                if (arraysEqual(selectedCells, answer.cells)) {
+                    console.log('FOUND:', answer.word);
+                    foundWord(answer);
+                    return;
+                }
+            }
+            
+            // If no match, clear after delay
+            setTimeout(() => {
+                if (selecting.length > 0) {
+                    clearSelection();
+                }
+            }, 800);
+        }
+
+        // Check if arrays are equal
+        function arraysEqual(arr1, arr2) {
+            if (arr1.length !== arr2.length) return false;
+            
+            for (let i = 0; i < arr1.length; i++) {
+                if (arr1[i][0] !== arr2[i][0] || arr1[i][1] !== arr2[i][1]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        // Handle found word
+        function foundWord(answer) {
+            found.push(answer.word);
+            
+            // Mark cells as found
+            selecting.forEach(s => {
+                const cell = gridCells.find(c => c.row === s.row && c.col === s.col).element;
+                cell.classList.remove('selecting');
+                cell.classList.add('found');
+            });
+            
+            // Clear selection
+            clearSelection();
+            
+            // Add word tag
+            const tag = document.createElement('div');
+            tag.className = `word-tag ${answer.isMain ? 'main' : ''}`;
+            tag.innerHTML = `${answer.word} ${answer.isMain ? '<i class="fas fa-star"></i>' : ''}`;
+            document.getElementById('wordTags').appendChild(tag);
+            
+            // Update count
+            document.getElementById('wordCount').textContent = `${found.length}/${answers.length}`;
+            
+            // Check if all words found
+            if (found.length === answers.length) {
+                setTimeout(() => {
+                    document.getElementById('celebration').classList.add('show');
+                }, 800);
+            }
+        }
+
+        // Show hint
+        function showHint() {
+            const unfound = answers.filter(a => !found.includes(a.word));
+            if (unfound.length === 0) return;
+            
+            const hint = unfound[0];
+            const firstCell = hint.cells[0];
+            const cell = gridCells.find(c => c.row === firstCell[0] && c.col === firstCell[1]).element;
+            
+            // Flash the cell
+            cell.style.transform = 'scale(1.3)';
+            cell.style.boxShadow = '0 0 25px #ffb347';
+            setTimeout(() => {
+                cell.style.transform = '';
+                cell.style.boxShadow = '';
+            }, 1200);
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
