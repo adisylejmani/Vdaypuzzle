@@ -21,6 +21,25 @@
             color: #5a3d3d;
             overflow-x: hidden;
             touch-action: manipulation;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b8b, #ff4d6d, #ffb347, #ff6b8b);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+            z-index: 9999;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         /* INTRO SCREEN */
@@ -760,6 +779,8 @@
             document.getElementById('introScreen').classList.add('hidden');
             setTimeout(() => {
                 document.getElementById('gameContainer').classList.add('visible');
+                // Force scroll to top on mobile
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 300);
         });
 
